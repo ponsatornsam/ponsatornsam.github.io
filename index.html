@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบคิดเงิน</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input[type="number"] {
+            width: calc(100% - 10px);
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .total {
+            font-weight: bold;
+            background-color: #e6f3ff;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            }
+            .button.red {
+                background-color: #f44336; /* พื้นหลังสีแดง */
+                color: white; /* ตัวหนังสือสีขาว */
+            }
+        .green {
+            color: green;
+        }
+        .red {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="page1">
+        <table>
+            <tr>
+                <th>รายการ</th>
+                <th>จำนวนเงิน (บาท)</th>
+            </tr>
+            <tr>
+                <td>ยอดขายสุทธิ</td>
+                <td><input type="number" id="netSales" step="0.01"></td>
+            </tr>
+            <tr>
+                <td>บัตรเครดิต</td>
+                <td><input type="number" id="creditCard" step="0.01"></td>
+            </tr>
+            <tr>
+                <td>สตาร์การ์ด</td>
+                <td><input type="number" id="starCard" step="0.01"></td>
+            </tr>
+            <tr>
+                <td>เครดิตลูกค้า</td>
+                <td><input type="number" id="customerCredit" step="0.01"></td>
+            </tr>
+            <tr>
+                <td>ลูกค้าเงินโอน</td>
+                <td><input type="number" id="transferCustomer" step="0.01"></td>
+            </tr>
+            <tr>
+                <td>Caltex Go</td>
+                <td><input type="number" id="caltexGo" step="0.01"></td>
+            </tr>
+            <tr>
+                <td>ส่วนลด</td>
+                <td><input type="number" id="discount" step="0.01"></td>
+            </tr>
+            <tr>
+                <td>ค่าใช้จ่าย</td>
+                <td><input type="number" id="expenses" step="0.01"></td>
+            </tr>
+            <tr>
+                <td>น้ำมันเครื่อง</td>
+                <td><input type="number" id="engineOil" step="0.01"></td>
+            </tr>
+            <tr class="total">
+                <td>รวมยอดเงิน</td>
+                <td id="totalAmount">0.00</td>
+            </tr>
+        </table>
+        <button class="button" onclick="showPage2()">คิดยอดเงิน</button>
+        <button class="button red" onclick="clearData()">ล้างข้อมูล</button>
+    </div>
+
+    <div id="page2" style="display: none;">
+        <table>
+            <tr>
+                <th>ธนบัตร/เหรียญ</th>
+                <th>จำนวน</th>
+                <th>รวม</th>
+            </tr>
+            <tr>
+                <td>1000</td>
+                <td><input type="number" id="b1000" step="1" min="0"></td>
+                <td id="t1000">0</td>
+            </tr>
+            <tr>
+                <td>500</td>
+                <td><input type="number" id="b500" step="1" min="0"></td>
+                <td id="t500">0</td>
+            </tr>
+            <tr>
+                <td>100</td>
+                <td><input type="number" id="b100" step="1" min="0"></td>
+                <td id="t100">0</td>
+            </tr>
+            <tr>
+                <td>50</td>
+                <td><input type="number" id="b50" step="1" min="0"></td>
+                <td id="t50">0</td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td><input type="number" id="b20" step="1" min="0"></td>
+                <td id="t20">0</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td><input type="number" id="b10" step="1" min="0"></td>
+                <td id="t10">0</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td><input type="number" id="b5" step="1" min="0"></td>
+                <td id="t5">0</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><input type="number" id="b2" step="1" min="0"></td>
+                <td id="t2">0</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td><input type="number" id="b1" step="1" min="0"></td>
+                <td id="t1">0</td>
+            </tr>
+            <tr class="total">
+                <td colspan="2">รวมเป็นเงิน</td>
+                <td id="totalCash">0</td>
+            </tr>
+            <tr class="total">
+                <td colspan="2">ขาด/เกิน</td>
+                <td id="difference">0</td>
+            </tr>
+        </table>
+        <button class="button" onclick="showPage1()">กลับ</button>
+        <button class="button red" onclick="clearCashData()">ล้างข้อมูล</button>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('input[type="number"]');
+        const totalAmountElement = document.getElementById('totalAmount');
+
+        function calculateTotal() {
+            const netSales = parseFloat(document.getElementById('netSales').value) || 0;
+            const creditCard = parseFloat(document.getElementById('creditCard').value) || 0;
+            const starCard = parseFloat(document.getElementById('starCard').value) || 0;
+            const customerCredit = parseFloat(document.getElementById('customerCredit').value) || 0;
+            const transferCustomer = parseFloat(document.getElementById('transferCustomer').value) || 0;
+            const caltexGo = parseFloat(document.getElementById('caltexGo').value) || 0;
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+            const engineOil = parseFloat(document.getElementById('engineOil').value) || 0;
+
+            const total = netSales - creditCard - starCard - customerCredit - transferCustomer - caltexGo - discount - expenses + engineOil;
+            totalAmountElement.textContent = total.toFixed(2);
+            localStorage.setItem('totalAmount', total.toFixed(2));
+        }
+
+        function calculateCash() {
+            const denominations = [1000, 500, 100, 50, 20, 10, 5, 2, 1];
+            let totalCash = 0;
+
+            denominations.forEach(d => {
+                const count = parseInt(document.getElementById(`b${d}`).value) || 0;
+                const total = count * d;
+                document.getElementById(`t${d}`).textContent = total;
+                totalCash += total;
+            });
+
+            document.getElementById('totalCash').textContent = totalCash.toFixed(2);
+
+            const totalAmount = parseFloat(localStorage.getItem('totalAmount')) || 0;
+            const difference = totalCash - totalAmount;
+            const differenceElement = document.getElementById('difference');
+            differenceElement.textContent = difference.toFixed(2);
+            differenceElement.className = difference >= 0 ? 'green' : 'red';
+        }
+
+        function saveToLocalStorage() {
+            inputs.forEach(input => {
+                localStorage.setItem(input.id, input.value);
+            });
+        }
+
+        function loadFromLocalStorage() {
+            inputs.forEach(input => {
+                const savedValue = localStorage.getItem(input.id);
+                if (savedValue) {
+                    input.value = savedValue;
+                }
+            });
+            calculateTotal();
+            calculateCash();
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.id.startsWith('b')) {
+                    calculateCash();
+                } else {
+                    calculateTotal();
+                }
+                saveToLocalStorage();
+            });
+        });
+
+        function showPage2() {
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('page2').style.display = 'block';
+        }
+
+        function showPage1() {
+            document.getElementById('page2').style.display = 'none';
+            document.getElementById('page1').style.display = 'block';
+        }
+
+        function clearData() {
+            inputs.forEach(input => {
+                if (!input.id.startsWith('b')) {
+                    input.value = '';
+                    localStorage.removeItem(input.id);
+                }
+            });
+            calculateTotal();
+        }
+
+        function clearCashData() {
+            inputs.forEach(input => {
+                if (input.id.startsWith('b')) {
+                    input.value = '';
+                    localStorage.removeItem(input.id);
+                }
+            });
+            calculateCash();
+        }
+
+        window.addEventListener('load', loadFromLocalStorage);
+    </script>
+</body>
+</html>
